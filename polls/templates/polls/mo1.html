@@ -24,24 +24,8 @@
     </div>
     <div class="main_content">
         <div class="info">
-            <h1>Does your sentence contain a pronoun?</h1>
-            <div>
-            <form action="/mo5" method="POST">
-            {% csrf_token %}
-                <input type="text" id="sentence" name="sentence" placeholder="Write Here"><br>
-                <input type="submit" value="Submit">
-            </form>
-            </div>
-            <div>
-                {% if value or value != None%}
-                    <p>{{ value }}</p>
-                {% endif %}
-                {% if interpretations %}
-                    <p>There is a pronoun in the sentence you entered !</p>
-                {% elif interpretations != None %}
-                    <p>The sentence you entered did not contain any pronouns</p>
-                {% endif %}
-            </div>
+        <h1>Welcome to our NLP CIM Project !</h1>
+        </div>
     </div>
     </div>
 
