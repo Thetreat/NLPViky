@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+    <title>Mockup 5</title>
+</head>
+<body>
+    <h1>Form</h1>
+    <div>
+    <form action="/polls/mo5" method="POST">
+    {% csrf_token %}
+        <label for="sentence">Please input your sentence:</label><br>
+        <input type="text" id="sentence" name="sentence"><br>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    {% if interpretations != False %}
+        <p>{{ interpretations.normalisation }}</p>
+    {% elif interpretations != None %}
+        <p>The sentence you entered did not contained any phone number</p>
+    {% endif %}
+</body>
+</html>
