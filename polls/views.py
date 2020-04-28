@@ -15,14 +15,15 @@ def mo5(request):
             print(form.cleaned_data["sentence"])
 
             value = form.cleaned_data["sentence"]
-            headers = {'Agent-Token': 'ad845e37d2e07137fcea056f4cd5823d'}
+            headers = {'Agent-Token': 'aeb7fece4a1f3cb0c063c710a931e832'}
             params = {"sentence": value}
-            url = 'https://www.viky.ai/api/v1/agents/babybel/phonenumbers/interpret.json'
+            url = 'https://www.viky.ai/api/v1/agents/babybel/pronouns/interpret.json'
 
             response = requests.get(url, headers=headers, params=params).json()
+            print(response)
 
             if len(response["interpretations"]) != 0:
-                return render(request, "polls/mo5.html", {"value": value, "response": response, "interpretations": response["interpretations"][0]["solution"]})
+                return render(request, "polls/mo5.html", {"value": value, "response": response, "interpretations": True })
             else:
                 return render(request, "polls/mo5.html", {"value": value, "response": response, "interpretations": False})
 

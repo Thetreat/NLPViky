@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,10 +16,10 @@
         <input type="submit" value="Submit">
     </form>
     </div>
-    {% if interpretations != False %}
-        <p>{{ interpretations.normalisation }}</p>
+    {% if interpretations %}
+        <p>There is a pronoun in the sentence you entered</p>
     {% elif interpretations != None %}
-        <p>The sentence you entered did not contained any phone number</p>
+        <p>The sentence you entered did not contain any pronoun</p>
     {% endif %}
 </body>
 </html>
