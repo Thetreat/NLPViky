@@ -25,16 +25,25 @@
     <div class="main_content">
         <div class="info">
             <h1>Create a sentence containing a pronoun.</h1>
+            <!-- <p>Write Here: </p> -->
             <div>
             <form action="/mo5" method="POST">
             {% csrf_token %}
-                <input type="text" id="sentence" name="sentence" placeholder="Write Here"><br>
+                <input type="text" id="sentence" name="sentence" placeholder="Write Here" autocomplete="off"><br>
                 <input type="submit" value="Submit">
             </form>
             </div>
             <div>
-                {% if value or value != None%}
-                    <p>{{ value }}</p>
+                {% if words or words != None%}
+                    <p>
+                    {% for wordData in words %}
+                        {% if wordData.match != null  %}
+                            <span class="match">{{ wordData.word }}</span>
+                        {% else %}
+                            <span class="nomatch">{{ wordData.word }}</span>
+                        {% endif %}
+                    {% endfor %}
+                    </p>
                 {% endif %}
                 {% if interpretations %}
                     <p>There is a pronoun in the sentence you entered !</p>
@@ -44,6 +53,22 @@
             </div>
     </div>
     </div>
-
+<script>
+    /**
+     * Shuffles array in place. ES6 version
+     * @param {Array} a items An array containing the items.
+     */
+    function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+    const COLORS = shuffle(["#01f1fe", "#ffa510", "#0e1f52", "#660000", "#fc322b", "#940140", "#04e6fe", "#fd6986", "#108dfc"])
+    for (let i = 0; i < document.getElementsByClassName("match").length; i++) {
+        document.getElementsByClassName("match")[i].style = "border-bottom: 3px solid" + COLORS[i];
+    }
+</script>
 </body>
 </html>

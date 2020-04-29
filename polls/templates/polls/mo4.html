@@ -1,33 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
-    <link rel="icon" href="{% static 'polls/nlp-logo.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'polls/style.css' %}"
+    />
+    <link rel="icon" href="{% static 'polls/nlp-logo.png' %}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
+      rel="stylesheet"
+    />
     <title>Mockup 5</title>
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-</head>
-<body>
-
-<div class="wrapper">
-    <div class="sidebar">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar">
         <h2>Sidebar</h2>
         <ul>
-            <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="#"><i class="fas fa-star"></i>Type 1</a></li>
-            <li><a href="/mo4"><i class="fas fa-star"></i>Type 2</a></li>
-            <li><a href="/mo5"><i class="fas fa-star"></i>Type 3</a></li>
-            <li><a href="#"><i class="fas fa-wrench"></i>Settings</a></li>
+          <li>
+            <a href="/"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-star"></i>Type 1</a>
+          </li>
+          <li>
+            <a href="/mo4"><i class="fas fa-star"></i>Type 2</a>
+          </li>
+          <li>
+            <a href="/mo5"><i class="fas fa-star"></i>Type 3</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-wrench"></i>Settings</a>
+          </li>
         </ul>
-    </div>
-    <div class="main_content">
+      </div>
+      <div class="main_content">
         <div class="info">
-        <h1>Click on the pronoun</h1>
+          <h1>Click on the pronoun</h1>
+          <p id="sentence">I am your friend</p>
+          <p id="answer"></p>
         </div>
+      </div>
     </div>
-    </div>
+    {% csrf_token %}
+    <script>
+      const sentence = document
+        .getElementById("sentence")
+        .textContent.split(/ +/);
+      document.getElementById("sentence").innerHTML = null;
+      sentence.map((word) => {
+        const span = document.createElement("span");
+        span.onclick = () => {
+          var XHR = new XMLHttpRequest();
+          var FD = new FormData();
 
-</body>
+          FD.append("word", word);
+
+          XHR.onreadystatechange = () => {
+              document.getElementById("answer").textContent = XHR.responseText
+          }
+
+          XHR.open("POST", "/mo4");
+          XHR.setRequestHeader("X-CSRFToken", '{{ csrf_token }}')
+
+          XHR.send(FD);
+        };
+        span.textContent = word + " ";
+        document.getElementById("sentence").appendChild(span);
+      });
+    </script>
+  </body>
 </html>
