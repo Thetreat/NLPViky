@@ -1,8 +1,15 @@
 from django.shortcuts import render, HttpResponse
-import requests
+from random import choice
+import requests, csv
 
 from . import forms
 
+target = "french"
+
+data = []
+with open("./phrases_en_fr.csv", mode="r", encoding="utf_8") as f:
+    data = list(csv.reader(f))
+print(data[0:4])
 
 def mo1(request):
     return render(request, "polls/mo1.html")
@@ -26,8 +33,10 @@ def mo4(request):
             url = 'https://www.viky.ai/api/v1/agents/babybel/pronouns/interpret.json'
 
             response = requests.get(url, headers=headers, params=params).json()
-            return HttpResponse("It is a pronoun" if len(response["interpretations"]) else "It is not")
-    return render(request, "polls/mo4.html")
+            return HttpResponse("It is a pronoun" if len(response["interpretations"]) != 0 else "It is not")
+    else:
+        sentence = choice(data)[1 if target == "french" else 0]
+        return render(request, "polls/mo4.html",{"sentence":sentence})
 
 
 def mo5(request):
