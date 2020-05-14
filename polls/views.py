@@ -17,7 +17,7 @@ def mo1(request):
 
 def mo2(request):
     if request.method == "POST":
-        form = forms.mo5Form(request.POST)
+        form = forms.mo2Form(request.POST)
         if form.is_valid():
             value = form.cleaned_data["sentence"]
             headers = {'Agent-Token': 'aeb7fece4a1f3cb0c063c710a931e832'}
@@ -73,4 +73,16 @@ def mo4(request):
 
 
 def mo5(request):
-    pass
+    if request.method == "POST":
+        form = forms.mo4Form(request.POST)
+        if form.is_valid():
+            value = form.cleaned_data["word"]
+            headers = {'Agent-Token': 'aeb7fece4a1f3cb0c063c710a931e832'}
+            params = {"sentence": value, "verbose": "true"}
+            url = 'https://www.viky.ai/api/v1/agents/babybel/pronouns/interpret.json'
+
+            response = requests.get(url, headers=headers, params=params).json()
+            return HttpResponse("It is a pronoun" if len(response["interpretations"]) != 0 else "It is not")
+    else:
+        sentences = choice(data)
+        return render(request, "polls/mo5.html",{"sentences":sentences})

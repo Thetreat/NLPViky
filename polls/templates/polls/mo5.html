@@ -40,38 +40,19 @@
       </div>
       <div class="main_content">
         <div class="info">
-          <h1>Click on the pronoun</h1>
-          <p id="sentence">{{sentence}}</p>
-          <p id="answer"></p>
+          <form action="/mo5" method="POST">
+            {% for sentence in sentences %}
+              <input type="text" class="sentences" value="{{ sentence }}" disabled>
+            {% endfor %}
+            {% csrf_token %}
+            <br>
+            <label for="sentence">Write here the pronoun in the sentence of your target language</label>
+            <input type="text" id="sentence" name="sentence" placeholder="Write Here" autocomplete="off"><br>
+            <input type="submit" value="Submit">
+          </form>
         </div>
       </div>
     </div>
     {% csrf_token %}
-    <script>
-      const sentence = document
-        .getElementById("sentence")
-        .textContent.split(/ +/);
-      document.getElementById("sentence").innerHTML = null;
-      sentence.map((word) => {
-        const span = document.createElement("span");
-        span.onclick = () => {
-          var XHR = new XMLHttpRequest();
-          var FD = new FormData();
-
-          FD.append("word", word);
-
-          XHR.onreadystatechange = () => {
-              document.getElementById("answer").textContent = XHR.responseText
-          }
-
-          XHR.open("POST", "/mo4");
-          XHR.setRequestHeader("X-CSRFToken", '{{ csrf_token }}')
-
-          XHR.send(FD);
-        };
-        span.textContent = word + " ";
-        document.getElementById("sentence").appendChild(span);
-      });
-    </script>
   </body>
 </html>
