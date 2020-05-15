@@ -48,8 +48,8 @@ def mo2(request):
                 words = map(lambda word: {"word": word,
                                           "match": None}, value.split(" "))
 
-            return render(request, "polls/mo5.html", {"words": words, "interpretations": len(response["interpretations"]) != 0})
-    return render(request, "polls/mo5.html")
+            return render(request, "polls/mo2.html", {"words": words, "interpretations": len(response["interpretations"]) != 0})
+    return render(request, "polls/mo2.html")
 
 
 def mo3(request):
